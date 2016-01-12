@@ -12,7 +12,7 @@ As of now the idea is to run this once, but in the future this script could be m
 In the even further future, it may be possible to add additional exif data, possibly using OCR, to add tags based on text we know will be in certain areas on screen (such as zone name beneath minimap).
 
 
- #### Some Disclaimers
+#### Some Disclaimers
 
 This was written on Windows (sorry). As a result, you should be able to run it without issue on your machine, but with file IO being an integral part of this, I have no idea if any of it will work in other OSes.
 
