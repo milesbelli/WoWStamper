@@ -27,6 +27,8 @@ def parseDateTime(name,prefix):
     s = s.replace('_','')
     s = s.replace('.','')
     s = s.replace('jpg','')
+    
+    
     #print(s)
     
     if(s.isnumeric() == True):
@@ -34,9 +36,16 @@ def parseDateTime(name,prefix):
         formattedDate = ''.join(['20', s[4:6], ':', s[0:2], ':', s[2:4], ' ', s[6:8], ':', s[8:10], ':', s[10:12]])
         
         return (formattedDate)
-        
 
-screenshotDir = 'E:\\ProgFiles WoW\\World of Warcraft\\test\\'
+def introText():
+    print("WoWStamper 0.0.2 by Louis Mitas\n" +
+          "To begin, fill in the following information:\n")
+
+introText()
+screenshotDir = input("TARGET FOLDER PATH\n" +
+                      "*All* image files in the target folder will be converted\n" +
+                      "Path>")
+
 dirPath = Path(screenshotDir)
 filePrefix = 'WoWScrnShot_'
 
