@@ -21,17 +21,15 @@ def parseDateTime(name,strip):
     for chars in strip:
         name = name.replace(chars,'')
     
-    print(name)
-    
     if(name.isnumeric() == True):
-        
         formattedDate = ''.join(['20', name[4:6], ':', name[0:2], ':', name[2:4], ' ', name[6:8], ':', name[8:10], ':', name[10:12]])
-        
         return (formattedDate)
+
 
 def introText():
     print("WoWStamper 0.0.2 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
+
 
 introText()
 screenshotDir = input("TARGET FOLDER PATH:\n" +
@@ -42,7 +40,9 @@ dirPath = Path(screenshotDir)
 nameStrip = ['WoWScrnShot','_','.','jpg']
 
 if(dirPath.exists()):
+
     print('Now converting...')
+
     for file in dirPath.iterdir():
         strFile = str(file)
         fileName = strFile.replace(screenshotDir,'')
