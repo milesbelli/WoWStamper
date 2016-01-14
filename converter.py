@@ -42,7 +42,7 @@ def introText():
           "To begin, fill in the following information:\n")
 
 introText()
-screenshotDir = input("TARGET FOLDER PATH\n" +
+screenshotDir = input("TARGET FOLDER PATH:\n" +
                       "*All* image files in the target folder will be converted\n" +
                       "Path>")
 
