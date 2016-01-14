@@ -17,6 +17,6 @@ In the even further future, it may be possible to add additional exif data, poss
 
 This was written on Windows (sorry). As a result, you should be able to run it without issue on your machine, but with file IO being an integral part of this, I have no idea if any of it will work in other OSes.
 
-The script works, but it's very rudimentary, and right now the code needs to be modified to point at the appropriate directory, and it is specifically tailored for WoW screenshots.
+The script works, but it's very rudimentary, and right now the code is specifically tailored for WoW screenshots.
 
 To make matters worse, I'm still fumbling around with Git, coming from my Subversion background. Please forgive the weird commits. Or don't. Whatever.
