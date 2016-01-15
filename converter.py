@@ -28,7 +28,7 @@ def parseDateTime(name,strip):
 
 
 def introText():
-    print("WoWStamper 0.0.2 by Louis Mitas\n" +
+    print("WoWStamper 0.1.0 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
     
 
