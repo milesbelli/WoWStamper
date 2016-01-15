@@ -4,6 +4,7 @@
 
 import exiftool
 from pathlib import Path
+import sys
 
 def writeExif(dateTime,targetPath):
     with exiftool.ExifTool() as et:
@@ -29,26 +30,52 @@ def parseDateTime(name,strip):
 def introText():
     print("WoWStamper 0.0.2 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
+    
 
 
 introText()
-screenshotDir = input("TARGET FOLDER PATH:\n" +
-                      "*All* image files in the target folder will be converted\n" +
-                      "Path >")
+
+screenshotDir = ''
+print("TARGET FOLDER PATH:\n" +
+      "*All* image files in the target folder will be converted\n")
+while(screenshotDir == ''): screenshotDir = input("Path >")
+
+procLimit = input("CONVERSION LIMIT:\n" +
+                  "Set limit to number of files to convert this batch (must be an integer)\n" +
+                  "Or press return for no limit\n"
+                  "Limit >")
 
 dirPath = Path(screenshotDir)
 nameStrip = ['WoWScrnShot','_','.','jpg']
 
 if(dirPath.exists()):
 
+    fileList = []
+    for file in dirPath.iterdir(): fileList.append(file)
+
     print('Now converting...')
 
-    for file in dirPath.iterdir():
-        strFile = str(file)
+    if (procLimit.isdigit() == False): procLimit = (len(fileList) - 1)
+    else: procLimit = int(procLimit)
+    
+    i = 0
+    
+    while (i < procLimit):
+        strFile = str(fileList[i])
         fileName = strFile.replace(screenshotDir,'')
-        
         dateTime = parseDateTime(fileName,nameStrip)
         dateTime = str(dateTime)
+        
         writeExif(dateTime,strFile)
+        
+        i += 1
+        
+        print(str(i) + ' of ' + str(procLimit) + ' files converted')
+        
+    
+    print ('Conversion complete')
+        
+        
+
 
 
