@@ -77,7 +77,7 @@ if(dirPath.exists()):
         else:
             skipped += 1
             skipMsg = ', skipped ' + str(skipped) + ' non-image file'
-            if(skipped > 1): skipMsg.join('s')
+            if(skipped > 1): skipMsg = skipMsg + 's'
             # Our skipped file should not be counted towards the total
             iOffset += 1
             # If processing all files, skipped file must be accounted for
