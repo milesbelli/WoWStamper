@@ -25,6 +25,7 @@ def parseDateTime(name,strip):
     if(name.isnumeric() == True):
         formattedDate = ''.join(['20', name[4:6], ':', name[0:2], ':', name[2:4], ' ', name[6:8], ':', name[8:10], ':', name[10:12]])
         return (formattedDate)
+    else: return ''
 
 
 def introText():
@@ -36,17 +37,17 @@ def introText():
 introText()
 
 screenshotDir = ''
-print("TARGET FOLDER PATH:\n" +
+print("TARGET FOLDER PATH:\n"
       "*All* image files in the target folder will be converted\n")
-while(screenshotDir == ''): screenshotDir = input("Path >")
+while(screenshotDir == ''): screenshotDir = input("Path > ")
 
-procLimit = input("CONVERSION LIMIT:\n" +
-                  "Set limit to number of files to convert this batch (must be an integer)\n" +
+procLimit = input("CONVERSION LIMIT:\n"
+                  "Set limit to number of files to convert this batch (must be an integer)\n"
                   "Or press return for no limit\n"
-                  "Limit >")
+                  "Limit > ")
 
 dirPath = Path(screenshotDir)
-nameStrip = ['WoWScrnShot','_','.','jpg']
+nameStrip = [screenshotDir,'\\','WoWScrnShot','_','.','jpg']
 
 if(dirPath.exists()):
 
@@ -54,28 +55,23 @@ if(dirPath.exists()):
     for file in dirPath.iterdir(): fileList.append(file)
 
     print('Now converting...')
-
-    if (procLimit.isdigit() == False): procLimit = (len(fileList) - 1)
+    
+    if (procLimit.isdigit() == False): procLimit = len(fileList)
     else: procLimit = int(procLimit)
     
     i = 0
     
     while (i < procLimit):
         strFile = str(fileList[i])
-        fileName = strFile.replace(screenshotDir,'')
-        dateTime = parseDateTime(fileName,nameStrip)
+        dateTime = parseDateTime(strFile,nameStrip)
         dateTime = str(dateTime)
         
-        writeExif(dateTime,strFile)
+        if (dateTime != ''): writeExif(dateTime,strFile)
+        else: print('Skipped non-image file')
         
         i += 1
         
         print(str(i) + ' of ' + str(procLimit) + ' files converted')
         
     
-    print ('Conversion complete')
-        
-        
-
-
-
+    input ('Conversion complete. Press enter to exit.')
