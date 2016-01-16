@@ -29,7 +29,7 @@ def parseDateTime(name,strip):
 
 
 def introText():
-    print("WoWStamper 0.1.0 by Louis Mitas\n" +
+    print("WoWStamper 1.0.1 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
     
 
@@ -38,13 +38,13 @@ introText()
 
 screenshotDir = ''
 print("TARGET FOLDER PATH:\n"
-      "*All* image files in the target folder will be converted\n")
+      "*All* image files in the target folder will be processed\n")
 while(screenshotDir == ''): screenshotDir = input("Path > ")
 
-procLimit = input("CONVERSION LIMIT:\n"
-                  "Set limit to number of files to convert this batch (must be an integer)\n"
+procLimit = input("\nCONVERSION LIMIT:\n"
+                  "Set limit to number of files to process this batch (must be an integer)\n"
                   "Or press return for no limit\n"
-                  "Limit > ")
+                  "\nLimit > ")
 
 dirPath = Path(screenshotDir)
 nameStrip = [screenshotDir,'\\','WoWScrnShot','_','.','jpg']
@@ -54,12 +54,19 @@ if(dirPath.exists()):
     fileList = []
     for file in dirPath.iterdir(): fileList.append(file)
 
-    print('Now converting...')
+    print('\nNow processing...')
     
-    if (procLimit.isdigit() == False): procLimit = len(fileList)
-    else: procLimit = int(procLimit)
-    
+    if (procLimit.isdigit() == False):
+        procLimit = len(fileList)
+        allFiles = True
+    else:
+        procLimit = int(procLimit)
+        allFiles = False
+        
     i = 0
+    skipped = 0
+    iOffset = 0
+    procLimitOffset = 0
     
     while (i < procLimit):
         strFile = str(fileList[i])
@@ -67,11 +74,21 @@ if(dirPath.exists()):
         dateTime = str(dateTime)
         
         if (dateTime != ''): writeExif(dateTime,strFile)
-        else: print('Skipped non-image file')
+        else:
+            skipped += 1
+            skipMsg = ', skipped ' + str(skipped) + ' non-image file'
+            if(skipped > 1): skipMsg.join('s')
+            # Our skipped file should not be counted towards the total
+            iOffset += 1
+            # If processing all files, skipped file must be accounted for
+            procLimitOffset += 1
+            if(allFiles == False): procLimit += 1
         
         i += 1
         
-        print(str(i) + ' of ' + str(procLimit) + ' files converted')
+        percentProc = '(' + str(int(100*(i-iOffset)/(procLimit-procLimitOffset))) + '%)'
+        
+        print('\r' + str(i-iOffset) + ' of ' + str(procLimit-procLimitOffset) + ' files processed ' + percentProc + skipMsg,end='')
         
     
-    input ('Conversion complete. Press enter to exit.')
+    input ('\nConversion complete. Press enter to exit.')

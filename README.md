@@ -1,5 +1,5 @@
 # WoWStamper
-_version 0.1.0_
+_version 1.0.1_
 
 Script to batch add exif data to WoW screenshots.
 
