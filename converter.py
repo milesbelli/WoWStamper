@@ -29,7 +29,7 @@ def parseDateTime(name,strip):
 
 
 def introText():
-    print("WoWStamper 1.0.1 by Louis Mitas\n" +
+    print("WoWStamper 1.1.0 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
     
 
@@ -39,15 +39,15 @@ introText()
 screenshotDir = ''
 print("TARGET FOLDER PATH:\n"
       "*All* image files in the target folder will be processed\n")
-while(screenshotDir == ''): screenshotDir = input("Path > ")
+while(screenshotDir == ''): screenshotDir = input("Path? ")
 
 procLimit = input("\nCONVERSION LIMIT:\n"
                   "Set limit to number of files to process this batch (must be an integer)\n"
                   "Or press return for no limit\n"
-                  "\nLimit > ")
+                  "\nLimit? ")
 
 dirPath = Path(screenshotDir)
-nameStrip = [screenshotDir,'\\','WoWScrnShot','_','.','jpg']
+nameStrip = [screenshotDir,'\\','WoWScrnShot','_','.','jpg','tif']
 
 if(dirPath.exists()):
 
@@ -76,7 +76,7 @@ if(dirPath.exists()):
         if (dateTime != ''): writeExif(dateTime,strFile)
         else:
             skipped += 1
-            skipMsg = ', skipped ' + str(skipped) + ' non-image file'
+            skipMsg = ', skipped ' + str(skipped) + ' non-EXIF file'
             if(skipped > 1): skipMsg = skipMsg + 's'
             # Our skipped file should not be counted towards the total
             iOffset += 1
@@ -91,4 +91,4 @@ if(dirPath.exists()):
         print('\r' + str(i-iOffset) + ' of ' + str(procLimit-procLimitOffset) + ' files processed ' + percentProc + skipMsg,end='')
         
     
-    input ('\nConversion complete. Press enter to exit.')
+    input ('\nProcessing complete. Press enter to exit.')
