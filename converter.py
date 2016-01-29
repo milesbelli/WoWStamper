@@ -13,10 +13,14 @@ def writeExif(dateTime,targetPath):
         
         addDate = '-CreateDate=' + dateTime
         params = [bytearray(addDate, 'utf-8'),bytearray(targetPath, 'utf-8')]
-
-        et.execute(*params)
-
         
+        if(et.get_tag('CreateDate',targetPath) == None):
+            et.execute(*params)
+            return True
+        else: 
+            return False
+            
+                    
 def parseDateTime(name,strip):    
     
     for chars in strip:
@@ -29,7 +33,7 @@ def parseDateTime(name,strip):
 
 
 def introText():
-    print("WoWStamper 1.1.0 by Louis Mitas\n" +
+    print("WoWStamper 1.1.1 by Louis Mitas\n" +
           "To begin, fill in the following information:\n")
     
 
@@ -72,21 +76,25 @@ if(dirPath.exists()):
         strFile = str(fileList[i])
         dateTime = parseDateTime(strFile,nameStrip)
         dateTime = str(dateTime)
+        exifSuccess = False
         
-        if (dateTime != ''): writeExif(dateTime,strFile)
-        else:
-            skipped += 1
-            skipMsg = ', skipped ' + str(skipped) + ' non-EXIF file'
-            if(skipped > 1): skipMsg = skipMsg + 's'
-            # Our skipped file should not be counted towards the total
-            iOffset += 1
-            # If processing all files, skipped file must be accounted for
-            procLimitOffset += 1
-            if(allFiles == False): procLimit += 1
+        if (dateTime != ''): exifSuccess = writeExif(dateTime,strFile)
+        if (exifSuccess == False):
+                skipped += 1
+                if(skipped > 1): fileWord = ' files'
+                else: fileWord = ' file'
+                skipMsg = ', skipped ' + str(skipped) + fileWord + ' because of reasons'
+                # Our skipped file should not be counted towards the total
+                iOffset += 1
+                # If processing all files, skipped file must be accounted for
+                procLimitOffset += 1
+                if(allFiles == False): procLimit += 1
         
         i += 1
         
-        percentProc = '(' + str(int(100*(i-iOffset)/(procLimit-procLimitOffset))) + '%)'
+        if(procLimit > procLimitOffset):
+            percentProc = '(' + str(int(100*(i-iOffset)/(procLimit-procLimitOffset))) + '%)'
+        else: percentProc = '(0%)'
         
         print('\r' + str(i-iOffset) + ' of ' + str(procLimit-procLimitOffset) + ' files processed ' + percentProc + skipMsg,end='')
         
