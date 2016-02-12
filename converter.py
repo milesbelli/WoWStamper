@@ -96,7 +96,7 @@ if(dirPath.exists()):
             percentProc = '(' + str(int(100*(i-iOffset)/(procLimit-procLimitOffset))) + '%)'
         else: percentProc = '(0%)'
         
-        print('\r' + str(i-iOffset) + ' of ' + str(procLimit-procLimitOffset) + ' files processed ' + percentProc + skipMsg,end='')
+        print('\r' + str(i-iOffset) + ' of ' + str(procLimit-procLimitOffset) + ' files processed ' + percentProc + skipMsg + ' ',end='')
         
     
     input ('\nProcessing complete. Press enter to exit.')
